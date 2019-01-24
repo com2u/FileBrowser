@@ -1,0 +1,49 @@
+{
+    "cwd": {
+        "isowner": false,
+        "ts": 1548042474,
+        "mime": "directory",
+        "read": 1,
+        "write": 1,
+        "size": 0,
+        "hash": "l1_dGVzdC90ZXN0MQ",
+        "name": "test1",
+        "phash": "l1_dGVzdA",
+        "volumeid": "l1_",
+        "dirs": 1
+    },
+    "options": {
+        "path": "files\\root\\test\\test1",
+        "url": "/files/",
+        "tmbUrl": "/files/.tmb/",
+        "disabled": ["chmod"],
+        "separator": "\\",
+        "copyOverwrite": 1,
+        "uploadOverwrite": 1,
+        "uploadMaxSize": 2147483647,
+        "uploadMaxConn": 3,
+        "uploadMime": {
+            "firstOrder": "deny",
+            "allow": ["image\/x-ms-bmp", "image\/gif", "image\/jpeg", "image\/png", "image\/x-icon", "text\/plain"],
+            "deny": ["all"]
+        },
+        "dispInlineRegex": "^(?:(?:video|audio)|image\/(?!.+\\+xml)|application\/(?:ogg|x-mpegURL|dash\\+xml)|(?:text\/plain|application\/pdf)$)",
+        "jpgQuality": 100,
+        "archivers": {
+            "create": ["application\/zip"],
+            "extract": ["application\/zip"],
+            "createext": {
+                "application\/zip": "zip"
+            }
+        },
+        "uiCmdMap": [],
+        "syncChkAsTs": 1,
+        "syncMinMs": 10000,
+        "i18nFolderName": 0,
+        "tmbCrop": 1,
+        "substituteImg": true,
+        "onetimeUrl": false,
+        "trashHash": "t1_Lw"
+    },
+    "files": []
+}
