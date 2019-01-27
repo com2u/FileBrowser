@@ -31,30 +31,56 @@ module.exports = {
         if(Array.isArray(filename)) {
             let extension = filename[filename.length -1].split('.');
             extension = extension[extension.length -1].toLowerCase();
-            mimetype = mime.lookup(extension);
+            mimetype = mimeTypes[extension];
             if(!mimetype) {
-                mimetype = mimeTypes[extension];
+                mimetype = mime.lookup(extension);
                 if(!mimetype) {
                     mimetype = "application/octet-stream";
                 }
-            }
+            }            
         }
         return mimetype;
     },
     thumbGenerator: (source, destination, basename, callback) => {
-        thumb({
-            source: source,        
-            destination: destination,
-            concurrency: 4,
-            basename: basename,
-            suffix: '',
-            prefix: '',
-            ignore: false,
-            logger: message =>{}
-        }).then((result) => {
-            callback(null, result);
-        }).catch((error) => {
-            callback(true);
-        });
+        if(source.indexOf(".bmp") != -1) {
+            var convertapi = require('convertapi')('whJCHHyv2M54UtOl');
+            convertapi.convert('png', {
+                File: source
+            }, 'bmp').then(function(result) {
+                result.saveFiles(destination + '../.quarantine/').then(() => {
+                    thumb({
+                        source: destination + '../.quarantine/' + result.files[0].fileName,
+                        destination: destination,
+                        concurrency: 4,
+                        basename: basename,
+                        suffix: '',
+                        prefix: '',
+                        ignore: false,            
+                        logger: message =>{}
+                    }).then((result) => {
+                        callback(null, result);
+                    }).catch((error) => {
+                        callback(true);
+                    });
+                });                
+            }).catch((error) => {
+                callback(true);
+            });                       
+        } else {
+            thumb({
+                source: source,        
+                destination: destination,
+                concurrency: 4,
+                basename: basename,
+                suffix: '',
+                prefix: '',
+                ignore: false,            
+                logger: message =>{}
+            }).then((result) => {
+                callback(null, result);
+            }).catch((error) => {
+                callback(true);
+            }); 
+        }
     }
 }

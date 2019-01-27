@@ -127,8 +127,13 @@ router.get('/minimal', (req, res, next) => {
       file.hash = utilities.setHash(_file.substring(_file.indexOf(path), _file.length), true);
       file.phash = req.query.target;
       file.ts = Date.now();
-      let extension = filename[filename.length -1].split('.');      
-      let tmbPath = file.hash + stats.mtime.getTime() + "." + extension[extension.length -1].toLowerCase();
+      let extension = filename[filename.length -1].split('.');   
+      if(extension[extension.length - 1] == "bmp") {
+        extension = ".png";
+      } else {
+        extension = "." + extension[extension.length - 1].toLocaleLowerCase();
+      }   
+      let tmbPath = file.hash + stats.mtime.getTime() + extension;
       if(fs.existsSync(rootpath + ".tmb/" + tmbPath)) {
         file.tmb = tmbPath;
       } else {
@@ -197,12 +202,18 @@ router.get('/minimal', (req, res, next) => {
           if(err) {
             return callback();
           }
-          resdata.images[target] = basename + "." + extension[extension.length - 1].toLocaleLowerCase();
+          if(extension[extension.length - 1] == "bmp") {
+            extension = ".png";
+          } else {
+            extension = "." + extension[extension.length - 1].toLocaleLowerCase();
+          }
+          resdata.images[target] = basename + extension;
           callback();
         });
       },
       (err) => {
         res.send(resdata);
+        fs.removeSync(rootpath + ".quarantine/");
       }
     )
   } else {
